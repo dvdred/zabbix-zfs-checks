@@ -8,9 +8,11 @@ DONE
 - zpool discovery
 - zpool status
 - zpool triggers if not ONLINE
+- zpool stats
 
 TODO
-- zpool stats
+- zpool stats graph
+- zpool stats trigger
 - dataset discovery
 - dataset status
 - dataset triggers if not ONLINE
