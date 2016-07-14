@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2016-07-14T19:05:45Z</date>
+    <date>2016-07-14T19:39:03Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -111,11 +111,11 @@ zabbix ALL=NOPASSWD: /sbin/zpool</description>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>zpool.health[{#ZFSPOOL}]</key>
-                            <delay>180</delay>
-                            <history>14</history>
+                            <delay>120</delay>
+                            <history>31</history>
                             <trends>365</trends>
                             <status>0</status>
-                            <value_type>4</value_type>
+                            <value_type>1</value_type>
                             <allowed_hosts/>
                             <units/>
                             <delta>0</delta>
@@ -137,7 +137,7 @@ zabbix ALL=NOPASSWD: /sbin/zpool</description>
                             <publickey/>
                             <privatekey/>
                             <port/>
-                            <description/>
+                            <description>zpool status returned or error to list always stored like a char</description>
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
@@ -150,8 +150,8 @@ zabbix ALL=NOPASSWD: /sbin/zpool</description>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Template ZFS:zpool.health[{#ZFSPOOL}].regexp(ONLINE,#2)}&lt;&gt;0</expression>
-                            <name>Zpool [{#ZFSPOOL}] Error</name>
+                            <expression>{Template ZFS:zpool.health[{#ZFSPOOL}].str(ONLINE)}=0</expression>
+                            <name>Zpool Error [{#ZFSPOOL}]</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>

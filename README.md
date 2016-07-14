@@ -7,9 +7,7 @@ DONE
 - bash script to install zabbix custom commands for agent
 - zpool discovery
 - zpool status
-
-DOING
-- zpool triggers if not ONLINE (not working! fIX needs)
+- zpool triggers if not ONLINE
 
 TODO
 - zpool stats
