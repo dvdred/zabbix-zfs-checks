@@ -1,7 +1,7 @@
 # zabbix-zfs-checks
 This project includes a Zabbix Template (2.4) and all the resources (agent side) useful to monitor zpools used by zfs on linux
 
-It use low level discovery rules to create items, triggers, graphs about your zfs pool on linux.
+It uses low level discovery rules to create items, triggers and graphs about your zfs pools on linux host (latest debian and centos supported).
 
 DONE
 - bash script to install zabbix custom commands for agent
