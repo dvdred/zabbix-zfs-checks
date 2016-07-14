@@ -11,12 +11,14 @@ cat >"/etc/zabbix/zabbix_agentd.d/userparameter_zfs.conf"<<'EOF'
 UserParameter=zpool.discover,/bin/discover-zfspool.sh
 UserParameter=zpool.health[*],sudo zpool list -H -o health $1
 UserParameter=zpool.stat[*],sudo zpool iostat $1 -y |tail -n 1
-UserParameter=zpool.alloc.stat[*],sudo zpool iostat $1 -y |tail -n 1 | awk '{print $$2}'
-UserParameter=zpool.free.stat[*],sudo zpool iostat $1 -y |tail -n 1 | awk '{print $$3}'
 UserParameter=zpool.ioro.stat[*],sudo zpool iostat $1 5 1 -y |tail -n 1 | awk '{print $$4}'
 UserParameter=zpool.iorw.stat[*],sudo zpool iostat $1 5 1 -y |tail -n 1 | awk '{print $$5}'
-UserParameter=zpool.ro.stat[*],sudo zpool iostat $1 5 1 -y |tail -n 1 | awk '{print $$6}'
-UserParameter=zpool.rw.stat[*],sudo zpool iostat $1 5 1 -y |tail -n 1 | awk '{print $$7}'
+
+# CANNOT INCLUDE NEXT BECAUSE THERE IS NO SIMPLE WAY TO GET RAW DATA FROM zpool iostat COMMAND
+#UserParameter=zpool.alloc.stat[*],sudo zpool iostat $1 -y |tail -n 1 | awk '{print $$2}'
+#UserParameter=zpool.free.stat[*],sudo zpool iostat $1 -y |tail -n 1 | awk '{print $$3}'
+#UserParameter=zpool.ro.stat[*],sudo zpool iostat $1 5 1 -y |tail -n 1 | awk '{print $$6}'
+#UserParameter=zpool.rw.stat[*],sudo zpool iostat $1 5 1 -y |tail -n 1 | awk '{print $$7}'
 EOF
 
 cat >"/bin/discover-zfspool.sh"<<'EOF'

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2016-07-14T19:39:03Z</date>
+    <date>2016-07-14T21:34:55Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -11,47 +11,9 @@
         <template>
             <template>Template ZFS</template>
             <name>Template ZFS</name>
-            <description>Template relativo al controllo dei pool zfs, richiede custom parameter presenti nelle configurazioni dell'agent, uno script per il discovery in formato JSON, i permessi di suoders per l'utility zpool.&#13;
+            <description>Docs and instruction at https://github.com/dvdred/zabbix-zfs-checks&#13;
 &#13;
-CUSTOM PARAMETERS:&#13;
-/etc/zabbix/zabbix_agentd.d/userparameter_zfs.conf :&#13;
-UserParameter=zpool.discover,/bin/discover-zfspool.sh&#13;
-UserParameter=zpool.health[*],sudo zpool list -H -o health $1&#13;
-&#13;
-SCRIPT /bin/discover-zfspool.sh:&#13;
-#!/bin/bash&#13;
-declare -a pools&#13;
-#pools=(a b c)&#13;
-&#13;
-n=0&#13;
-#for i in $(/sbin/zpool list -H -o name) ; do&#13;
-for i in $(sudo zpool list -H -o name); do&#13;
-  pools[$n]=&quot;$i&quot;&#13;
-  #echo &quot;Pool: $n = $i&quot;     #to confirm the entry&#13;
-  let &quot;n= $n + 1&quot;&#13;
-done&#13;
-# Get length of an array&#13;
-length=${#pools[@]}&#13;
-let &quot;last= $length - 1&quot;&#13;
-&#13;
-for (( i=0; i&lt;${length}; i++ ))&#13;
-do&#13;
-        if [ $i == $last ]; then&#13;
-            POOL=&quot;{\&quot;{#ZFSPOOL}\&quot;:\&quot;${pools[$i]}\&quot;}&quot;&#13;
-        else&#13;
-            POOL=&quot;{\&quot;{#ZFSPOOL}\&quot;:\&quot;${pools[$i]}\&quot;},&quot;&#13;
-        fi&#13;
-    POOLALL=&quot;$POOLALL&quot;&quot;$POOL&quot;&#13;
-done&#13;
-&#13;
-echo &quot;{\&quot;data\&quot;:[&quot;$POOLALL&quot;]}&quot;&#13;
-&#13;
-&#13;
-SUDOERS /etc/sudoers.d/zabbix :&#13;
-# Zabbix permission&#13;
-    &#13;
-Defaults:zabbix !requiretty   &#13;
-zabbix ALL=NOPASSWD: /sbin/zpool</description>
+(ɔ) to dvd.red_AT_gmail.com</description>
             <groups>
                 <group>
                     <name>Templates</name>
@@ -60,6 +22,9 @@ zabbix ALL=NOPASSWD: /sbin/zpool</description>
             <applications>
                 <application>
                     <name>ZFS Checks</name>
+                </application>
+                <application>
+                    <name>ZFS Stats</name>
                 </application>
             </applications>
             <items/>
@@ -104,6 +69,135 @@ zabbix ALL=NOPASSWD: /sbin/zpool</description>
                     <lifetime>14</lifetime>
                     <description/>
                     <item_prototypes>
+                        <item_prototype>
+                            <name>Zpool All Stats {#ZFSPOOL}</name>
+                            <type>0</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>zpool.stat[{#ZFSPOOL}]</key>
+                            <delay>3600</delay>
+                            <history>31</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>4</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description>zpool stats (must be used to calculate multiple value in one shot)</description>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>ZFS Checks</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Zpool I/O Read {#ZFSPOOL}</name>
+                            <type>0</type>
+                            <snmp_community/>
+                            <multiplier>1</multiplier>
+                            <snmp_oid/>
+                            <key>zpool.ioro.stat[{#ZFSPOOL}]</key>
+                            <delay>60</delay>
+                            <history>14</history>
+                            <trends>180</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>IO/s</units>
+                            <delta>1</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description>zpool stats (must be used to calculate multiple value in one shot)</description>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>ZFS Stats</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Zpool I/O Write {#ZFSPOOL}</name>
+                            <type>0</type>
+                            <snmp_community/>
+                            <multiplier>1</multiplier>
+                            <snmp_oid/>
+                            <key>zpool.iorw.stat[{#ZFSPOOL}]</key>
+                            <delay>60</delay>
+                            <history>14</history>
+                            <trends>180</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>IO/s</units>
+                            <delta>1</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description>zpool stats (must be used to calculate multiple value in one shot)</description>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>ZFS Stats</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
                         <item_prototype>
                             <name>Zpool Status {#ZFSPOOL}</name>
                             <type>0</type>
@@ -159,7 +253,52 @@ zabbix ALL=NOPASSWD: /sbin/zpool</description>
                             <type>0</type>
                         </trigger_prototype>
                     </trigger_prototypes>
-                    <graph_prototypes/>
+                    <graph_prototypes>
+                        <graph_prototype>
+                            <name>Zpool I/O  {#ZFSPOOL}</name>
+                            <width>900</width>
+                            <height>250</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>1</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>1</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>4</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template ZFS</host>
+                                        <key>zpool.iorw.stat[{#ZFSPOOL}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>4</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template ZFS</host>
+                                        <key>zpool.ioro.stat[{#ZFSPOOL}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                    </graph_prototypes>
                     <host_prototypes/>
                 </discovery_rule>
             </discovery_rules>

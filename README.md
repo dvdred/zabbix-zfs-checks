@@ -8,7 +8,7 @@ DONE
 - zpool discovery
 - zpool status
 - zpool triggers if not ONLINE
-- zpool stats
+- zpool stats (partial, restriction caused by the lack of raw data and not fixed Units added to the output of zpool iostat)
 
 TODO
 - zpool stats graph
