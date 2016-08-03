@@ -3,7 +3,7 @@ This project includes a Zabbix Template (2.4) and all the resources (agent side)
 
 It uses low level discovery rules to create items, triggers and graphs about your zfs pools on linux host (latest debian and centos supported).
 
-Read MACRO.md to set the Regula Expression Filters needed by this template.
+Read MACRO.md to set the Regular Expression Filters needed by this template.
 
 DONE
 - bash script to install zabbix custom commands for agent
@@ -14,8 +14,6 @@ DONE
 - zpool stats graph (only I/O)
 - dataset discovery
 - dataset status
-
-TODO
-- zpool stats trigger
-- dataset triggers if not ONLINE
-- dataset stats
+- dataset triggers if not MOUNTED
+- dataset stats (space on dataset)
+- dataset trigger for low space

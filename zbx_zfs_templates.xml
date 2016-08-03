@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2016-08-03T14:53:06Z</date>
+    <date>2016-08-03T17:34:07Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -336,17 +336,54 @@
                                 <operator>8</operator>
                                 <formulaid>A</formulaid>
                             </condition>
-                            <condition>
-                                <macro>{#ZFSPOOL}</macro>
-                                <value>@Linux ZFS Zpool</value>
-                                <operator>8</operator>
-                                <formulaid>B</formulaid>
-                            </condition>
                         </conditions>
                     </filter>
                     <lifetime>14</lifetime>
                     <description/>
                     <item_prototypes>
+                        <item_prototype>
+                            <name>Zset Free Space on  {#ZFSDATASET}</name>
+                            <type>0</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>zsets.free.stat[{#ZFSDATASET}]</key>
+                            <delay>60</delay>
+                            <history>14</history>
+                            <trends>180</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>ZFS Stats</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
                         <item_prototype>
                             <name>Zset Status {#ZFSDATASET}</name>
                             <type>0</type>
@@ -390,19 +427,116 @@
                             <valuemap/>
                             <logtimefmt/>
                         </item_prototype>
+                        <item_prototype>
+                            <name>Zset Used Space on  {#ZFSDATASET}</name>
+                            <type>0</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>zsets.alloc.stat[{#ZFSDATASET}]</key>
+                            <delay>60</delay>
+                            <history>14</history>
+                            <trends>180</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>ZFS Stats</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
+                        <trigger_prototype>
+                            <expression>{Template ZFS:zsets.free.stat[{#ZFSDATASET}].last()}&lt;524288</expression>
+                            <name>Dataset Quota Reached on  [{#ZFSDATASET}]</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>2</priority>
+                            <description>Free space is under 5 Megabyte on  [{#ZFSDATASET}]</description>
+                            <type>0</type>
+                        </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template ZFS:zsets.health[{#ZFSDATASET}].str(yes)}=0</expression>
                             <name>Zsets Error [{#ZFSDATASET}]</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
                     </trigger_prototypes>
-                    <graph_prototypes/>
+                    <graph_prototypes>
+                        <graph_prototype>
+                            <name>Space usage on {#ZFSDATASET}</name>
+                            <width>900</width>
+                            <height>250</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template ZFS</host>
+                                        <key>zsets.free.stat[{#ZFSDATASET}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template ZFS</host>
+                                        <key>zsets.alloc.stat[{#ZFSDATASET}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                    </graph_prototypes>
                     <host_prototypes/>
                 </discovery_rule>
             </discovery_rules>

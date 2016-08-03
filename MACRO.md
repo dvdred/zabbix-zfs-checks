@@ -1,16 +1,20 @@
 # Macro and filters to add to zabbix configuration
 
-## Discovery rule use this configuration:
-Filters (used by this template)
+## Discovery rule used by this template needs Regular Expression Filters: 
+For Pool discovery
 ```
-[ AND/OR ]
 Label	Macro	 	Regular expression
-A	{#ZFSPOOL} 	@Linux ZFS Zpool
-B	{#ZFSDATASET}	@Linux ZFS Zsets
+A	{#ZFSPOOL}	@Linux ZFS Zpool
 ```
 
-## ADD THIS TWO REGULA EXPRESSION TO:
-Administration -> Regular Expression
+For Dataset discovery
+```
+Label   Macro           Regular expression
+A	{#ZFSDATASET}	@Linux ZFS Zsets
+```
+
+## ADD THIS TWO REGULAR EXPRESSION TO:
+Administration -> General -> Regular Expression
 ```
 - NAME:	Linux ZFS Zpool	
 1	» 	^\b[a-zA-Z0-9_]+\b$	[Result is TRUE]

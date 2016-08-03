@@ -23,6 +23,8 @@ UserParameter=zpool.iorw.stat[*],sudo zpool iostat $1 5 1 -y |tail -n 1 | awk '{
 # DATASETS
 UserParameter=zsets.discover,/bin/discover-zfsdataset.sh
 UserParameter=zsets.health[*],sudo zfs list -o mounted $1 |tail -n 1|tr -d ' '
+UserParameter=zsets.alloc.stat[*],sudo zfs list -p -o usedds $1 | tail -n 1 |tr -d ' '
+UserParameter=zsets.free.stat[*],sudo zfs list -p -o avail $1 | tail -n 1 |tr -d ' '
 EOF
 
 cat >"/bin/discover-zfspool.sh"<<'EOF'
