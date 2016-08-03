@@ -19,6 +19,10 @@ UserParameter=zpool.iorw.stat[*],sudo zpool iostat $1 5 1 -y |tail -n 1 | awk '{
 #UserParameter=zpool.free.stat[*],sudo zpool iostat $1 -y |tail -n 1 | awk '{print $$3}'
 #UserParameter=zpool.ro.stat[*],sudo zpool iostat $1 5 1 -y |tail -n 1 | awk '{print $$6}'
 #UserParameter=zpool.rw.stat[*],sudo zpool iostat $1 5 1 -y |tail -n 1 | awk '{print $$7}'
+
+# DATASETS
+UserParameter=zsets.discover,/bin/discover-zfsdataset.sh
+UserParameter=zsets.health[*],sudo zfs list -o mounted $1 |tail -n 1|tr -d ' '
 EOF
 
 cat >"/bin/discover-zfspool.sh"<<'EOF'
@@ -49,14 +53,48 @@ done
 
 echo "{\"data\":["$POOLALL"]}"
 EOF
-
 chmod a+x /bin/discover-zfspool.sh
+
+cat >"/bin/discover-zfsdataset.sh"<<'EOF'
+#!/bin/bash
+################################################
+
+declare -a datasets
+#pools=(a b c)
+
+n=0
+#for i in $(/sbin/zpool list -H -o name) ; do
+for i in $(sudo zfs list -H -o name | grep '/'); do
+  datasets[$n]="$i"
+  #echo "Pool: $n = $i"     #to confirm the entry
+  let "n= $n + 1"
+done
+
+# Get length of an array
+length=${#datasets[@]}
+let "last= $length - 1"
+
+for (( i=0; i<${length}; i++ ))
+do
+        if [ $i == $last ]; then
+            DATASET="{\"{#ZFSDATASET}\":\"${datasets[$i]}\"}"
+        else
+            DATASET="{\"{#ZFSDATASET}\":\"${datasets[$i]}\"},"
+        fi
+    SETALL="$SETALL""$DATASET"
+done
+
+echo "{\"data\":["$SETALL"]}"
+EOF
+chmod a+x /bin/discover-zfsdataset.sh
 
 cat >"/etc/sudoers.d/zabbixzfs"<<'EOF'
 # Zabbix permission for polling zpool
     
 Defaults:zabbix !requiretty   
 zabbix ALL=NOPASSWD: /sbin/zpool
+zabbix ALL=NOPASSWD: /sbin/zfs
+
 EOF
 
 echo "
