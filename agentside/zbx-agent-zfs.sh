@@ -23,11 +23,11 @@ UserParameter=zpool.rw.stat[*],cat /proc/spl/kstat/zfs/$1/io | tail -n +3 | awk 
 # Unit in %
 UserParameter=zpool.alloc.stat[*],sudo zpool list -H -o cap $1 | tr -d "%"
 # Unit in Kbytes, not cumulative
-UserParameter=zpool.size.stat[*],df -l | grep -w $1 | awk '{print $$2}'
+UserParameter=zpool.size.stat[*],df -l | grep -w "$1 " | awk '{print $$2}'
 # Unit in Kbytes, not cumulative
-UserParameter=zpool.used.stat[*],df -l | grep -w $1 | awk '{print $$3}'
+UserParameter=zpool.used.stat[*],df -l | grep -w "$1 " | awk '{print $$3}'
 # Unit in Kbytes, not cumulative
-UserParameter=zpool.free.stat[*],df -l | grep -w $1 | awk '{print $$4}'
+UserParameter=zpool.free.stat[*],df -l | grep -w "$1 " | awk '{print $$4}'
 
 # DATASETS
 UserParameter=zsets.discover,/bin/discover-zfsdataset.sh
