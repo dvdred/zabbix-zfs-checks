@@ -5,14 +5,15 @@ It uses low level discovery rules to create items, triggers and graphs about you
 
 Read MACRO.md to set the Regular Expression Filters needed by this template to not collide with other templates (TODO check if it is really useful).
 
-AGENTSIDE: run bash script to install zabbix custom commands for agent:
+AGENTSIDE: run bash script to install or update zabbix custom commands for the agent:
 - zpool discovery
 - zpool status
-- zpool triggers if not ONLINE
 - zpool stats
 - zpool stats graph
+- zpool triggers if not ONLINE
+- zpool trigger for low space
 - dataset discovery
 - dataset status
-- dataset triggers (if not MOUNTED)
-- dataset stats (space)
-- dataset trigger (for low space)
+- dataset stats (space only)
+- dataset triggers if not MOUNTED
+- dataset trigger for low space
