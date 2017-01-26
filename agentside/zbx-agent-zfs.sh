@@ -32,6 +32,8 @@ UserParameter=zpool.free.stat[*],df -l | grep -w "$1 " | awk '{print $$4}'
 # DATASETS
 UserParameter=zsets.discover,/bin/discover-zfsdataset.sh
 UserParameter=zsets.health[*],sudo zfs list -o mounted $1 |tail -n 1|tr -d ' '
+UserParameter=zsets.alloc.stat[*],sudo zfs list -p -o usedds $1 | tail -n 1 |tr -d ' '
+UserParameter=zsets.free.stat[*],sudo zfs list -p -o avail $1 | tail -n 1 |tr -d ' '
 EOF
 
 cat >"/bin/discover-zfspool.sh"<<'EOF'
